@@ -57,10 +57,10 @@ function love.update()
 end
 
 function love.mousepressed(x, y)
-  if x < gui.scale * panel.width then
-    if y < gui.scale * panel.height then
+  if x < gui.scale * panel.width and x > gui.scale then
+  if y < gui.scale * panel.height and y > gui.scale then
       panel.flip(math.floor(x / gui.scale), math.floor(y / gui.scale))
-    end
+  end
   end
 end
 
