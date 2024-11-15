@@ -28,8 +28,6 @@ end
 gui = {}
 gui.scale = 16 -- size of draw panel cell
 
-logo = love.graphics.newImage("sublogo.png")
-logo:setFilter("nearest")
 
 --[[
 	LOVE stuff
@@ -37,6 +35,11 @@ logo:setFilter("nearest")
 
 function love.load()
   love.window.setMode(640, 480)
+  love.graphics.setDefaultFilter("nearest")
+
+  icons = {}
+  icons.logo = love.graphics.newImage("sublogo.png")
+  icons.brush = love.graphics.newImage("brush.png")
 
   -- Left eye
   panel.flip(4, 4)
@@ -69,19 +72,28 @@ function love.draw()
   -- Draw background
   love.graphics.setBackgroundColor(0, 0, 0)
   love.graphics.setColor(1, 1, 1)
-  -- Draw logo
-  love.graphics.draw(logo, gui.scale * 28 , gui.scale * 26, 0, 6, 6)
+
+  -- Draw icons
+  love.graphics.draw(icons.logo, gui.scale * 28 , gui.scale * 26, 0, 6, 6)
+  --love.graphics.draw(icons.brush, gui.scale * 8, gui.scale * 19, 0, 4, 4)
+  --love.graphics.draw(icons.brush, gui.scale * 11, gui.scale * 19, 0, 4, 4)
+
   -- border
-  love.graphics.rectangle("line", gui.scale - 1, gui.scale - 1, ( gui.scale * panel.width ) - ( gui.scale - 3 ), ( gui.scale * panel.height ) - ( gui.scale - 3 ) )
+  love.graphics.rectangle("line",
+    gui.scale - 1, gui.scale - 1,
+    ( gui.scale * panel.width ) - ( gui.scale - 3 ),
+    ( gui.scale * panel.height ) - ( gui.scale - 3 ) 
+  )
   -- pixels
   for x=1, panel.width do
     for y=1, panel.height do
       if panel.get(x, y) == 1 then
+        love.graphics.setColor(1, 1, 1)
         love.graphics.rectangle("fill", ( gui.scale * x ) + 1 , ( gui.scale * y ) + 1, gui.scale - 1, gui.scale - 1)
       end
     end
   end
-  -- Draw subpixels
+  -- Draw actual subpixels
   -- love.graphics.rectangle("line", gui.scale - 2, gui.scale * ( panel.height + 1 ), ( gui.scale * panel.width ) - ( gui.scale - 3 ), ( gui.scale * panel.height ) - ( gui.scale - 3 ) )
   for x=1, panel.width, 3 do
     for y=1, panel.height do
